@@ -73,14 +73,16 @@ void MemberList::AddMember(Member *newMember) // PROC - a new sheep object
 	memPtr -> prev = NULL;
 	memPtr -> next = NULL;
 
-	if(IsEmpty()) //if the list is empty, add to the top
+	//if the list is empty, add to the top
+	if(IsEmpty())
 	{
 		head = memPtr;
 		tail = memPtr;
 	}
+	//If the name needs to go first, add to the top
 	else if(head->storeMember->GetName() > memPtr->storeMember->GetName())
 	{
-		//If the name needs to go first, add to the top
+
 		memPtr -> next = head; //points next to head
 		memPtr -> prev = NULL; //points prev to null
 		head -> prev   = memPtr;
@@ -92,7 +94,7 @@ void MemberList::AddMember(Member *newMember) // PROC - a new sheep object
 		found = false;
 
 		// PROC - will keep searching the list and rearranging nodes in
-		//		  alphabetical order only if !found and searchPtr != NULL
+		//		  alphabetical order only if !found and searchPtr->next != NULL
 		while(searchPtr->next != NULL && !found)
 		{
 			if(searchPtr->next->storeMember->GetName()
@@ -110,7 +112,9 @@ void MemberList::AddMember(Member *newMember) // PROC - a new sheep object
 			}
 		}
 
-		//If the loop exits w/out adding the node it adds to the end
+		//If the you exit the while loop w/out adding a node, this adds the node
+		// to the end of the list:
+
 		if(!found)
 		{
 			memPtr->next = NULL;
@@ -229,6 +233,56 @@ void MemberList::ClearList()
 	}
 }
 
+void MemberList::CreateList(string inFileName)
+{
+	ifstream inFile;
+	string memberName;
+	int memberNumber;
+	bool bIsMemberExecutive;
+	string memberType;
+	string memberDate;
+	string testString;
+
+	Member *newMember;
+
+	inFile.open(inFileName.c_str());
+
+	while (!inFile.eof())
+	{
+		getline(inFile, memberName);
+		inFile >> memberNumber;
+		inFile.ignore(numeric_limits<streamsize>::max(), '\n');
+
+		getline(inFile, testString);
+		if (testString == "Executive")
+		{
+			bIsMemberExecutive = true;
+		}
+
+		getline(inFile, memberDate);
+
+		newMember = new Member(memberName, memberNumber);
+
+		AddMember(newMember);
+	}
+}
+
+string MemberList::OutputList() const
+{
+	MemberNode *listPtr;
+	ostringstream output;
+
+	listPtr = head;
+
+	while(listPtr != NULL)
+	{
+		output << listPtr->storeMember->GetName() << endl;
+		listPtr = listPtr->next;
+	}
+
+
+	return output.str();
+}
 
 /**************************************************************************
 * Method IsEmtpy: Class MemberList

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
 #include "Member.h"
 
 using namespace std;
@@ -23,6 +24,7 @@ public:
 	void AddMember(Member *newMember);
 	void RemoveMember(string remMember);
 	void ClearList();
+	void CreateList(string inFileName);
 
 
 	/*****************
@@ -33,6 +35,7 @@ public:
 
 
 private:
+	//This is the node for the linked list
 	struct MemberNode{ Member *storeMember;
 					   MemberNode *prev;
 					   MemberNode *next;

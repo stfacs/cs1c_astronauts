@@ -12,6 +12,10 @@ class Member
 	 ** CONSTRUCTOR & DECONSTRUCTOR **
 	 *********************************/
 	Member();  // Constructor
+
+	Member(string newName,
+		   unsigned int newIdNum);
+
 	~Member(); // Deconstructor
 
 	/****************
@@ -24,8 +28,11 @@ class Member
 	string GetName() const;
 
 	private:
-		string 	name;
-		int 	idNum;
+		string 		 name;
+		unsigned int idNum;
+		double  	 totalMoneySpent;
+		unsigned int totalPurchases;
+
 
 	/*****************
 	 **  UTILITIES  **
